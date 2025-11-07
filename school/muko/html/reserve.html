@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>iTeen武庫之荘校 - 無料体験予約フォーム</title>
+  <link rel="stylesheet" href="../css/style.css"> 
+  <style>
+    /* 外部 style.css の基本設定を維持 */
+    
+    /* ---------------------------------------------------------------------- */
+    /* 予約フォーム固有のスタイル */
+    /* ---------------------------------------------------------------------- */
+    
+    #reserve-container {
+        max-width: 600px;
+        margin: 40px auto;
+        padding: 30px;
+        background-color: #ffffff;
+        border-radius: 10px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    #reserve-container h1 {
+        text-align: center;
+        color: var(--main-blue);
+        margin-bottom: 30px;
+    }
+
+    /* ステータスバー（進捗表示） */
+    .progress-bar {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 30px;
+    }
+
+    .step-indicator {
+        flex: 1;
+        text-align: center;
+        padding: 10px 0;
+        border-bottom: 4px solid #ddd;
+        font-weight: bold;
+        color: #aaa;
+        position: relative;
+        cursor: default;
+    }
+
+    .step-indicator.active {
+        color: var(--main-blue);
+        border-color: var(--main-blue);
+    }
+
+    /* 各ステップのコンテンツ */
+    .form-step {
+        display: none; /* 初期状態ではすべて非表示 */
+        padding: 20px 0;
+    }
+
+    .form-step.active {
+        display: block;
+    }
+
+    /* フォーム部品のスタイル */
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .form-group label {
+        display: block;
+        font-weight: bold;
+        margin-bottom: 8px;
+        color: #333;
+    }
+    
+    .form-group label .required {
+        color: red;
+        margin-left: 5px;
+        font-size: 0.8em;
+    }
+
+    .form-group input[type="text"],
+    .form-group input[type="email"],
+    .form-group input[type="tel"],
+    .form-group select {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-sizing: border-box;
+        font-size: 1em;
+    }
+
+    /* ボタンコンテナ */
+    .button-container {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 30px;
+    }
+
+    .button-container button {
+        padding: 12px 25px;
+        border: none;
+        border-radius: 5px;
+        font-size: 1em;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+    /* 次へ/送信ボタン */
+    .next-button, .submit-button {
+        background-color: var(--cta-orange);
+        color: #ffffff;
+    }
+
+    .next-button:hover, .submit-button:hover {
+        background-color: var(--dark-orange);
+    }
+    
+    /* 戻るボタン */
+    .prev-button {
+        background-color: #eee;
+        color: #333;
+    }
+
+    .prev-button:hover {
+        background-color: #ddd;
+    }
+
+    /* 完了メッセージ */
+    #completion-message {
+        text-align: center;
+        padding: 50px 20px;
+        background-color: var(--light-blue-bg);
+        border: 1px solid var(--main-blue);
+        border-radius: 8px;
+    }
+    #completion-message h2 {
+        color: var(--main-blue);
+    }
+    
+    /* お悩み選択肢 (チェックボックス/ラジオボタン風) */
+    .concern-options {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+    
+    .concern-options input[type="checkbox"] {
+        display: none;
+    }
+    
+    .concern-options label {
+        display: inline-block;
+        padding: 10px 15px;
+        border: 2px solid #ccc;
+        border-radius: 20px;
+        cursor: pointer;
+        transition: background-color 0.2s, border-color 0.2s;
+        font-weight: normal;
+        margin-bottom: 0; /* form-groupのmarginで制御するため */
+    }
+    
+    .concern-options input[type="checkbox"]:checked + label {
+        background-color: var(--light-blue-bg);
+        border-color: var(--main-blue);
+        color: var(--main-blue);
+        font-weight: bold;
+    }
+
+    /* モバイル対応 */
+    @media (max-width: 600px) {
+        #reserve-container {
+            margin: 20px 10px;
+            padding: 20px;
+        }
+        .step-indicator {
+            font-size: 0.9em;
+        }
+        .button-container button {
+            width: 48%; /* ボタンを横幅いっぱいに広げる */
+        }
+    }
+
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="header-inner">
+      <div class="logo">
+        <img src="images/pentech_chara.jpg" alt="iTeenキャラクター">
+        <h1>iTeen武庫之荘校</h1>
+      </div>
+      <nav>
+        <ul>
+          <li><a href="index.html#schoolinfo">教室情報</a></li>
+          <li><a href="index.html#teachers">講師紹介</a></li>
+          <li><a href="index.html#courses">コース</a></li>
+          <li><a href="index.html#faq">Q/A</a></li>
+          <li><a href="html/reserve.html" class="contact-button">無料体験予約</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>  
+
+  <main>
+    <section>
+        <div id="reserve-container">
+            <h1>無料体験 申込フォーム</h1>
+
+            <div class="progress-bar">
+                <div class="step-indicator active" data-step="1">1. 属性選択</div>
+                <div class="step-indicator" data-step="2">2. 情報入力</div>
+                <div class="step-indicator" data-step="3">3. 完了</div>
+            </div>
+
+            <form id="multi-step-form">
+                
+                <div class="form-step active" data-step="1">
+                    <h2>ステップ1: お子様の属性をお選びください</h2>
+
+                    <div class="form-group">
+                        <label for="school-district">学校区別 <span class="required">(必須)</span></label>
+                        <select id="school-district" required>
+                            <option value="">選択してください</option>
+                            <option value="elementary">小学校</option>
+                            <option value="junior-high">中学校</option>
+                            <option value="high">高校</option>
+                            <option value="other">その他</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="grade">学年 <span class="required">(必須)</span></label>
+                        <select id="grade" required>
+                            <option value="">選択してください</option>
+                            <option value="p1">小1</option>
+                            <option value="p2">小2</option>
+                            <option value="p3">小3</option>
+                            <option value="p4">小4</option>
+                            <option value="p5">小5</option>
+                            <option value="p6">小6</option>
+                            <option value="j1">中1</option>
+                            <option value="j2">中2</option>
+                            <option value="j3">中3</option>
+                            <option value="h1">高1</option>
+                            <option value="h2">高2</option>
+                            <option value="h3">高3</option>
+                            <option value="other">その他</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>プログラミング学習に関するお悩み（複数選択可）</label>
+                        <div class="concern-options">
+                            <input type="checkbox" id="c1" name="concern" value="パソコン操作に不慣れ">
+                            <label for="c1">パソコン操作に不慣れ</label>
+                            
+                            <input type="checkbox" id="c2" name="concern" value="論理的思考力を伸ばしたい">
+                            <label for="c2">論理的思考力を伸ばしたい</label>
+
+                            <input type="checkbox" id="c3" name="concern" value="学校の「情報」科目が不安">
+                            <label for="c3">学校の「情報」科目が不安</label>
+                            
+                            <input type="checkbox" id="c4" name="concern" value="将来の職業選択に役立てたい">
+                            <label for="c4">将来の職業選択に役立てたい</label>
+                            
+                            <input type="checkbox" id="c5" name="concern" value="自宅学習でうまくいかない">
+                            <label for="c5">自宅学習でうまくいかない</label>
+
+                            <input type="checkbox" id="c6" name="concern" value="その他">
+                            <label for="c6">その他</label>
+                        </div>
+                    </div>
+                    
+                    <div class="button-container justify-end">
+                        <button type="button" class="next-button">次に進む</button>
+                    </div>
+                </div>
+
+                <div class="form-step" data-step="2">
+                    <h2>ステップ2: ご連絡先をご入力ください</h2>
+                    
+                    <div class="form-group">
+                        <label for="applicant-name">ご入力者（保護者）のお名前 <span class="required">(必須)</span></label>
+                        <input type="text" id="applicant-name" placeholder="例: 山田 太郎" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">メールアドレス <span class="required">(必須)</span></label>
+                        <input type="email" id="email" placeholder="例: example@mail.com" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="phone">電話番号（ハイフンなし） <span class="required">(必須)</span></label>
+                        <input type="tel" id="phone" placeholder="例: 09012345678" pattern="[0-9]{10,11}" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="child-name">お子様のお名前（任意）</label>
+                        <input type="text" id="child-name" placeholder="例: 山田 花子 (任意)">
+                    </div>
+
+                    <div class="button-container">
+                        <button type="button" class="prev-button">戻る</button>
+                        <button type="submit" class="submit-button">上記内容で送信</button>
+                    </div>
+                </div>
+                
+                <div class="form-step" data-step="3" id="completion-step">
+                    <div id="completion-message">
+                        <h2>✅ お申し込みありがとうございます。</h2>
+                        <p>ご入力いただいた内容で無料体験のお申し込みを受け付けました。</p>
+                        <p>後日、担当者よりご入力いただいたメールアドレスまたは電話番号にご連絡いたしますので、今しばらくお待ちください。</p>
+                        <p style="margin-top: 30px;">iTeen武庫之荘校</p>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-copyright">
+        <p>© 2025 iTeen武庫之荘校</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // ----------------------------------------------------------------------
+    // JavaScript: 多段階フォームの制御
+    // ----------------------------------------------------------------------
+    let currentStep = 1;
+    const form = document.getElementById('multi-step-form');
+    const steps = document.querySelectorAll('.form-step');
+    const indicators = document.querySelectorAll('.step-indicator');
+
+    /**
+     * 現在のステップを表示し、進捗バーを更新する
+     */
+    function showStep(step) {
+        // ステップの表示/非表示を切り替え
+        steps.forEach(s => {
+            s.classList.remove('active');
+            if (parseInt(s.dataset.step) === step) {
+                s.classList.add('active');
+            }
+        });
+
+        // 進捗バーの更新
+        indicators.forEach(ind => {
+            ind.classList.remove('active');
+            if (parseInt(ind.dataset.step) <= step && step < 3) {
+                ind.classList.add('active');
+            } else if (step === 3 && parseInt(ind.dataset.step) === 3) {
+                 ind.classList.add('active');
+            }
+            // 完了ステップ(3)は、インジケーターの見た目を特別扱いするため、ステップ1,2は非アクティブ化しない
+        });
+        
+        // 完了ステップの場合は、インジケーター1と2を非アクティブ化する
+        if (step === 3) {
+            document.querySelector('.progress-bar').style.display = 'none';
+        } else {
+             document.querySelector('.progress-bar').style.display = 'flex';
+        }
+    }
+
+    /**
+     * ステップ1の必須項目をチェックする
+     */
+    function validateStep1() {
+        const district = document.getElementById('school-district').value;
+        const grade = document.getElementById('grade').value;
+        
+        if (!district) {
+            alert('学校区別を選択してください。');
+            return false;
+        }
+        if (!grade) {
+            alert('学年を選択してください。');
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * ステップ2の必須項目をチェックする
+     */
+    function validateStep2() {
+        const name = document.getElementById('applicant-name');
+        const email = document.getElementById('email');
+        const phone = document.getElementById('phone');
+        
+        if (!name.value || !email.value || !phone.value) {
+            alert('必須項目をすべて入力してください。');
+            return false;
+        }
+        // 簡単なメール形式チェック
+        if (!email.value.match(/^[^@]+@[^@]+\.[^@]+$/)) {
+            alert('有効なメールアドレスを入力してください。');
+            return false;
+        }
+        // 電話番号の桁数チェック
+        if (!phone.value.match(/^[0-9]{10,11}$/)) {
+            alert('電話番号はハイフンなしの10桁または11桁で入力してください。');
+            return false;
+        }
+
+        return true;
+    }
+
+    const nextButton = document.querySelector('.form-step[data-step="1"] .next-button');
+    if (nextButton) {
+        nextButton.addEventListener('click', () => {
+            if (validateStep1()) {
+                currentStep = 2;
+                showStep(currentStep);
+            }
+        });
+    } else {
+        console.error('次に進むボタンが見つかりません');
+    }
+
+    // 「戻る」ボタンのイベント
+    document.querySelector('.form-step[data-step="2"] .prev-button').addEventListener('click', () => {
+        currentStep = 1;
+        showStep(currentStep);
+    });
+
+    // フォーム送信（最後のステップ）のイベント
+    form.addEventListener('submit', (e) => {
+        e.preventDefault(); 
+        
+        if (validateStep2()) {
+            // ★ ここにサーバーへのデータ送信処理（通常はAJAX/Fetch API）を記述します
+            // 現在はデモのため、即座に完了画面へ遷移します。
+            
+            console.log('フォームデータ収集:', collectFormData());
+
+            // 完了画面へ遷移
+            currentStep = 3;
+            showStep(currentStep);
+        }
+    });
+    
+    // フォームデータを収集するヘルパー関数
+    function collectFormData() {
+        const concerns = Array.from(document.querySelectorAll('input[name="concern"]:checked'))
+                               .map(cb => cb.value);
+                               
+        return {
+            district: document.getElementById('school-district').value,
+            grade: document.getElementById('grade').value,
+            concerns: concerns,
+            applicantName: document.getElementById('applicant-name').value,
+            email: document.getElementById('email').value,
+            phone: document.getElementById('phone').value,
+            childName: document.getElementById('child-name').value || '未入力'
+        };
+    }
+    
+    // 初期表示
+    showStep(currentStep);
+  </script>
+</body>
+</html>

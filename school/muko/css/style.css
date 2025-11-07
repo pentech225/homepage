@@ -1,0 +1,568 @@
+/*
+ * 基本設定とリセット
+ * 基調色をエバーグリーンに設定
+ */
+ :root {
+    /* カスタムプロパティ (CSS変数) の定義 */
+    --main-blue: #047857; /* メインの緑色 (Evergreen Primary) */
+    --dark-blue: #065f46; /* 暗い緑色 (Evergreen Hover) */
+    --light-blue-bg: #f0fdf4; /* 薄い緑の背景色 */
+    --cta-orange: #eab308; /* CTAボタン色 (深みのあるゴールド) */
+    --dark-orange: #a16207; /* CTAボタン色 (Dark Gold Hover) */
+}
+
+body {
+    font-family: 'Hiragino Kaku Gothic ProN', 'Meiryo', sans-serif;
+    margin: 0;
+    padding: 0;
+    line-height: 1.7; /* 読みやすい行間 */
+    color: #333; /* 本文色 */
+    background-color: #f8f8f8; /* 背景をわずかにグレーに */
+}
+
+a {
+    text-decoration: none;
+    color: var(--main-blue);
+    transition: color 0.3s;
+}
+
+a:hover {
+    color: var(--dark-blue);
+}
+
+h1, h2, h3 {
+    font-weight: bold;
+    color: #1a1a1a;
+    margin-top: 0;
+}
+
+h2 {
+    font-size: 2.2em;
+    text-align: center;
+    margin-bottom: 1.5em;
+    position: relative;
+    padding-bottom: 0.5em;
+}
+
+h2::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 3px;
+    background-color: var(--main-blue);
+    border-radius: 2px;
+}
+
+/* ---------------------------------------------------------------------- */
+/* 1. ヘッダー (ナビゲーション)                                             */
+/* ---------------------------------------------------------------------- */
+
+header {
+    background-color: #ffffff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    padding: 10px 0;
+    position: fixed; /* 固定位置に変更 */
+    top: 0; /* ビューポートの上部に固定 */
+    width: 100%; /* ヘッダーを画面幅いっぱいに */
+    z-index: 1000; /* 他の要素より前面に表示 */
+}
+
+.header-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    /* ★ 修正点1: 縦並びのFlexboxに変更 */
+    display: flex;
+    flex-direction: column; 
+    /* ★ 修正点2: 要素を中央に配置 */
+    align-items: center; 
+    padding: 0 20px;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    /* 下段のメニューとの間にスペースを作る */
+    margin-bottom: 10px; 
+}
+
+.logo img {
+    height: 40px;
+    width: 40px;
+    border-radius: 50%; /* キャラクター画像を丸く */
+    margin-right: 10px;
+    object-fit: cover;
+}
+
+.logo h1 {
+    font-size: 1.5em;
+    color: var(--main-blue);
+    margin: 0;
+}
+
+/* ★ 修正点3: nav全体を幅いっぱいに広げる */
+nav {
+    width: 100%;
+    text-align: center; /* メニューを中央揃えにするための保険 */
+    padding-bottom: 5px; /* 下部パディング */
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    /* ★ 修正点4: メニュー項目（li）は横並びを維持 */
+    display: flex; 
+    /* 横並びにしたメニュー項目全体を中央に配置 */
+    justify-content: center; 
+    align-items: center;
+}
+
+nav ul li {
+    /* 項目間の左右の余白を調整 */
+    margin: 0 12px;
+}
+
+nav ul li a {
+    color: #333;
+    font-weight: 500;
+    padding: 5px 0;
+    white-space: nowrap; /* メニュー項目が折り返さないように */
+}
+
+nav ul li a:hover {
+    color: var(--main-blue);
+}
+
+/* CTAボタン（お問い合わせ） */
+.contact-button {
+    background-color: var(--main-blue);
+    color: #ffffff !important;
+    padding: 8px 15px;
+    border-radius: 5px;
+    font-weight: bold;
+    /* nav ul li の margin: 0 12px が効くように調整 */
+    margin-left: 0; 
+    border: 2px solid var(--main-blue);
+    transition: background-color 0.3s, border-color 0.3s;
+}
+
+.contact-button:hover {
+    background-color: var(--dark-blue);
+    border-color: var(--dark-blue);
+}
+
+/* ---------------------------------------------------------------------- */
+/* 2. メインコンテンツの共通スタイル                                        */
+/* ---------------------------------------------------------------------- */
+
+main {
+    padding-top: 0;
+}
+
+section {
+    padding: 80px 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    overflow: hidden; /* コンテナからはみ出し防止 */
+}
+
+/* ---------------------------------------------------------------------- */
+/* 3. ヒーローセクション (#hero)                                            */
+/* ---------------------------------------------------------------------- */
+
+#hero {
+    background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('images/pentech_header.jpg') no-repeat center center;
+    background-size: cover;
+    color: #ffffff;
+    text-align: center;
+    padding: 120px 20px;
+    min-height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.hero-text h2 {
+    font-size: 2.8em;
+    margin-bottom: 20px;
+    line-height: 1.4;
+    color: #ffffff;
+}
+
+.hero-text h2::after {
+    display: none; /* ヒーローセクションでは下線を非表示 */
+}
+
+.hero-text p {
+    font-size: 1.1em;
+    margin-bottom: 30px;
+    opacity: 0.9;
+}
+
+.cta-button {
+    display: inline-block;
+    background-color: var(--cta-orange); /* 目を引くオレンジ色 */
+    color: #ffffff !important;
+    font-size: 1.2em;
+    padding: 15px 30px;
+    border-radius: 8px;
+    font-weight: bold;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.cta-button:hover {
+    background-color: var(--dark-orange);
+    transform: translateY(-2px);
+}
+
+/* ---------------------------------------------------------------------- */
+/* 4.5. 教室情報セクション (#schoolinfo) - レイアウト修正                   */
+/* ---------------------------------------------------------------------- */
+main {
+    padding-top: 80px; /* ヘッダーの高さに合わせて調整 */
+}
+/* 新しいラッパー: デスクトップでは横並び */
+#schoolinfo .info-and-map-wrapper {
+    display: flex;
+    gap: 40px; /* 詳細情報と地図の間のスペース */
+    align-items: flex-start; /* 上端を揃える */
+}
+
+/* 教室情報（テキスト部分）：幅を調整し、要素を縦に並べる */
+#schoolinfo .schoolinfo-details {
+    flex: 0 0 40%; /* 幅を40%に固定 */
+    padding: 20px;
+    background-color: #ffffff; /* 背景色を追加 */
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+#schoolinfo .schoolinfo-details > div {
+    margin-bottom: 20px; /* 各情報の間にスペース */
+}
+
+/* 地図埋め込みのコンテナ */
+#schoolinfo .map-embed {
+    flex: 1; /* 残りの幅(60%)を占める */
+    min-width: 0; 
+}
+
+.map-embed iframe {
+    /* HTMLで width="100%" に変更済み */
+    width: 100%;
+    height: 400px; /* 高さ400pxを採用 */
+    border: 0;
+    border-radius: 8px; /* 角を丸く */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* ... (中略) ... */
+
+/* ---------------------------------------------------------------------- */
+/* 8. レスポンシブ対応 (モバイル向け)                                        */
+/* ---------------------------------------------------------------------- */
+
+@media (max-width: 768px) {
+    /* ... (中略) ... */
+
+    section {
+        padding: 50px 15px;
+    }
+
+    h2 {
+        font-size: 1.8em;
+    }
+    
+    /* ★ 修正点: info-and-map-wrapperを縦並びに */
+    #schoolinfo .info-and-map-wrapper {
+        flex-direction: column;
+    }
+
+    /* schoolinfo-detailsのスタイル調整 */
+    #schoolinfo .schoolinfo-details {
+        flex: auto; /* 幅を自動調整 */
+        text-align: center; /* テキストを中央寄せ */
+        padding: 0; /* モバイルではパディングを削除 */
+        background-color: transparent; /* 背景色を透明に */
+        box-shadow: none;
+    }
+    
+    #schoolinfo .schoolinfo-details > div {
+        margin-bottom: 30px; 
+    }
+
+    /* ... (中略) ... */
+
+    .feature-list, .course-container {
+        flex-direction: column;
+    }
+}
+
+/* ---------------------------------------------------------------------- */
+/* 4. 特長セクション (#features)                                            */
+/* ---------------------------------------------------------------------- */
+
+#features {
+    background-color: #ffffff;
+}
+
+.feature-list {
+    display: flex;
+    gap: 30px;
+    margin-top: 40px;
+    text-align: center;
+}
+
+.feature-item {
+    flex: 1;
+    padding: 30px;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    background-color: #fff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    transition: box-shadow 0.3s;
+}
+
+.feature-item:hover {
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.feature-item img {
+    width: 60px;
+    height: 60px;
+    margin-bottom: 15px;
+}
+
+.feature-item h3 {
+    color: var(--main-blue);
+    font-size: 1.2em;
+    margin-bottom: 10px;
+}
+
+/* ---------------------------------------------------------------------- */
+/* 4.5. 講師紹介セクション (#teachers)                                       */
+/* ---------------------------------------------------------------------- */
+
+.teacher-list {
+    display: flex; /* Flexboxを適用して横並びにする */
+    gap: 30px; /* 項目間の間隔 */
+    margin-top: 40px;
+    text-align: center;
+}
+
+.teacher-item {
+    flex: 1; /* 均等幅で横並び */
+    padding: 20px;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    background-color: #fff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    transition: box-shadow 0.3s;
+}
+
+.teacher-item:hover {
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.teacher-item img {
+    width: 150px; /* 画像を大きく */
+    height: 150px;
+    border-radius: 50%; /* 画像を丸くする */
+    object-fit: cover;
+    margin-bottom: 15px;
+    border: 4px solid var(--main-blue); /* エバーグリーンで枠線 */
+}
+
+.teacher-item h3 {
+    font-size: 1.4em;
+    margin-bottom: 5px;
+    color: var(--main-blue);
+}
+
+.teacher-item p {
+    font-size: 0.9em;
+    color: #666;
+    margin-top: 10px;
+    text-align: left; /* 説明文の左寄せ */
+}
+
+
+/* ---------------------------------------------------------------------- */
+/* 5. コースリンクセクション (#courses-link)                                */
+/* ---------------------------------------------------------------------- */
+
+#courses-link {
+    background-color: var(--light-blue-bg); /* 薄い青の背景色 */
+}
+
+.course-container {
+    display: flex;
+    gap: 30px;
+    margin-top: 40px;
+}
+
+.course-box {
+    flex: 1;
+    padding: 40px;
+    border-radius: 8px;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s;
+}
+
+.course-box:hover {
+    transform: translateY(-5px);
+}
+
+.tech-course {
+    background-color: var(--main-blue);
+    color: #ffffff;
+}
+
+.tech-course h3 {
+    color: #ffffff;
+}
+
+.tech-course a {
+    display: inline-block;
+    margin-top: 15px;
+    color: #ffffff !important;
+    border: 1px solid #ffffff;
+    padding: 8px 20px;
+    border-radius: 5px;
+}
+
+.tech-course a:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.test-prep-course {
+    background-color: #ffffff;
+    border: 2px solid var(--main-blue);
+    color: #333;
+}
+
+.test-prep-course h3 {
+    color: var(--main-blue);
+}
+
+.test-prep-course a {
+    display: inline-block;
+    margin-top: 15px;
+    color: var(--main-blue) !important;
+    border: 1px solid var(--main-blue);
+    padding: 8px 20px;
+    border-radius: 5px;
+}
+
+.test-prep-course a:hover {
+    background-color: var(--light-blue-bg);
+}
+
+/* ---------------------------------------------------------------------- */
+/* 6. お問い合わせセクション (#contact)                                      */
+/* ---------------------------------------------------------------------- */
+
+#contact {
+    text-align: center;
+    background-color: #ffffff;
+    padding-bottom: 100px;
+}
+
+#contact p {
+    font-size: 1.1em;
+    margin: 10px 0;
+}
+
+#contact a {
+    font-weight: bold;
+    color: var(--main-blue);
+}
+
+/* ---------------------------------------------------------------------- */
+/* 7. フッター (footer)                                                   */
+/* ---------------------------------------------------------------------- */
+
+footer {
+    text-align: center;
+    padding: 20px 0;
+    background-color: #333;
+    color: #ccc;
+    font-size: 0.9em;
+}
+
+/* ---------------------------------------------------------------------- */
+/* 8. レスポンシブ対応 (モバイル向け)                                        */
+/* ---------------------------------------------------------------------- */
+
+@media (max-width: 768px) {
+    .header-inner {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .logo {
+        margin-bottom: 15px;
+    }
+
+    nav ul {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    nav ul li {
+        margin: 5px 0;
+    }
+
+    .contact-button {
+        margin-left: 0;
+        margin-top: 10px;
+    }
+
+    section {
+        padding: 50px 15px;
+    }
+
+    h2 {
+        font-size: 1.8em;
+    }
+
+    #hero {
+        padding: 80px 20px;
+        min-height: 300px;
+    }
+
+    .hero-text h2 {
+        font-size: 2em;
+    }
+
+    .feature-list, .course-container {
+        flex-direction: column;
+    }
+}
+
+/* ---------------------------------------------------------------------- */
+/* 8. 予約ページ用                                      */
+/* ---------------------------------------------------------------------- */
+
+.next-button {
+    display: inline-block; /* ボタンを表示 */
+    background-color: var(--cta-orange);
+    color: #ffffff;
+    padding: 12px 25px;
+    border-radius: 5px;
+    font-size: 1em;
+    font-weight: bold;
+    cursor: pointer;
+    text-align: center;
+    border: none;
+    transition: background-color 0.3s;
+}
+
+.next-button:hover {
+    background-color: var(--dark-orange);
+}
