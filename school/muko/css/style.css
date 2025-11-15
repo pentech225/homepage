@@ -174,8 +174,8 @@ section {
 /* ---------------------------------------------------------------------- */
 
 #hero {
-    background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('images/pentech_header.jpg') no-repeat center center;
-    background-size: cover;
+    position: relative; /* 子要素を絶対配置できるようにする */
+    overflow: hidden;
     color: #ffffff;
     text-align: center;
     padding: 120px 20px;
@@ -183,6 +183,92 @@ section {
     display: flex;
     align-items: center;
     justify-content: center;
+    background-color: #000; /* 動画が読み込まれない場合の背景色 */
+}
+
+/* kv */
+.kv{
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .kv .main-copy{
+    color: #fff;
+    font-size: 30px;
+    font-weight: bold;
+    text-align: center;
+    line-height: 1;
+    letter-spacing: .2em;
+  }
+  
+  .kv .sub-copy{
+    color: #fff;
+    font-size: 20px;
+    text-align: center;
+  }
+  
+  /* video */
+  .video{
+    width: 100%;
+    height: 100vh;
+    background: url(../img/kv-alternative.jpg) no-repeat center/cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+    z-index: -1;
+  }
+  
+  .video::after{
+    content: '';
+    width: 100%;
+    height: 100%;
+    background-color: #10394b;
+    display: block;
+    position: absolute;
+    left: 0;
+    top: 0;
+    opacity: .3;
+  }
+  
+  .video video{
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+  }
+  
+  @media screen and (min-width: 768px) {
+    /* kv */
+    .kv{
+      min-width: 960px;
+    }
+  
+    .kv .main-copy{
+      font-size: 60px;
+    }
+  
+    .kv .sub-copy{
+      font-size: 30px;
+    }
+  
+    /* video */
+    .video{
+      min-width: 960px;
+    }
+  }
+
+.hero-text {
+    position: relative;
+    z-index: 1; /* テキストを動画の前面に表示 */
+    color: #ffffff; /* テキストの色を白に設定 */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7); /* テキストに影を追加して読みやすくする */
 }
 
 .hero-text h2 {
