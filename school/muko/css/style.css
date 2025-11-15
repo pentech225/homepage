@@ -63,7 +63,7 @@ h2::after {
 header {
     background-color: #ffffff;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-    padding: 10px 0;
+    padding: 20px 0;
     position: fixed; /* 固定位置に変更 */
     top: 0; /* ビューポートの上部に固定 */
     width: 100%; /* ヘッダーを画面幅いっぱいに */
@@ -71,42 +71,24 @@ header {
 }
 
 .header-inner {
-    max-width: 1200px;
+    max-width: 1700px;
     margin: 0 auto;
-    /* ★ 修正点1: 縦並びのFlexboxに変更 */
     display: flex;
-    flex-direction: column; 
-    /* ★ 修正点2: 要素を中央に配置 */
+    flex-direction: row; 
+    /* ★ 修正点1: ヘッダー全体を左端に寄せる */
+    justify-content: flex-start; /* space-between -> flex-start に変更 */
     align-items: center; 
     padding: 0 20px;
 }
 
 .logo {
-    display: flex;
-    align-items: center;
-    /* 下段のメニューとの間にスペースを作る */
-    margin-bottom: 10px; 
-}
-
-.logo img {
-    height: 40px;
-    width: 40px;
-    border-radius: 50%; /* キャラクター画像を丸く */
-    margin-right: 10px;
-    object-fit: cover;
+    margin-right: auto; /* ロゴを左に寄せる */
 }
 
 .logo h1 {
     font-size: 1.5em;
     color: var(--main-blue);
     margin: 0;
-}
-
-/* ★ 修正点3: nav全体を幅いっぱいに広げる */
-nav {
-    width: 100%;
-    text-align: center; /* メニューを中央揃えにするための保険 */
-    padding-bottom: 5px; /* 下部パディング */
 }
 
 nav ul {
